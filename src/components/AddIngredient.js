@@ -18,8 +18,8 @@ const AddIngredient = ({ loading, ingredients, updateIngredients }) => {
       <input
         type="text"
         name="text"
-        className="pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 block w-full rounded-full mr-5"
-        placeholder="new ingredient"
+        className="pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 w-full rounded-full mr-5"
+        placeholder="add ingredient"
         id="ingredient"
         autoComplete="off"
         onChange={(e) => setNewIngredient(e.target.value)}
