@@ -4,6 +4,7 @@ import { supabase } from "../supabaseClient";
 import AddIngredient from "./AddIngredient";
 import Ingredient from "./Ingredient";
 import RecipeSearchButton from "./RecipeSearchButton";
+import Recipe from "./Recipe";
 
 const Pantry = ({ session }) => {
   // let selectedIngredients = [];
@@ -113,35 +114,38 @@ const Pantry = ({ session }) => {
               loading={loading}
               ingredients={ingredients}
             />
-            <fieldset
-              className="flex flex-wrap gap-2"
-              onChange={handleIngredientCheck}
-            >
-              <legend className="text-xl text-center mb-8 text-zinc-700 font-semibold">
-                {ingredients.length} ingredients currently in your pantry.
-                {selectedIngredients.length === 0 && ingredients.length > 0 && (
-                  <p className="text-lg text-zinc-500 font-normal mt-2">
-                    Select ingredients to search recipes.
-                  </p>
-                )}
-              </legend>
-              {ingredients.sort().map((ingredient) => {
-                return (
-                  <Ingredient key={ingredient} ingredientName={ingredient} />
-                );
-              })}
-            </fieldset>
+            <form role="search">
+              <fieldset
+                className="flex flex-wrap gap-2"
+                onChange={handleIngredientCheck}
+              >
+                <legend className="text-xl text-center mb-8 text-zinc-700 font-semibold">
+                  {ingredients.length} ingredients currently in your pantry.
+                  {selectedIngredients.length === 0 &&
+                    ingredients.length > 0 && (
+                      <p className="text-lg text-zinc-500 font-normal mt-2">
+                        Select ingredients to search recipes.
+                      </p>
+                    )}
+                </legend>
+                {ingredients.sort().map((ingredient) => {
+                  return (
+                    <Ingredient key={ingredient} ingredientName={ingredient} />
+                  );
+                })}
+              </fieldset>
+            </form>
           </div>
         )}
         {selectedIngredients.length >= 1 && (
           <RecipeSearchButton loading={loading} fetchRecipes={fetchRecipes} />
         )}
         {recipesReady && selectedIngredients.length >= 1 ? (
-          <>
+          <ul className="flex gap-2 flex-wrap items-center justify-center">
             {recipeData.map((item) => {
-              return <span key={item.recipe.uri}>{item.recipe.label}</span>;
+              return <Recipe item={item} />;
             })}
-          </>
+          </ul>
         ) : (
           <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">
             {recipesMessage}
