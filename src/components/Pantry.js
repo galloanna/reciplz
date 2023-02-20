@@ -100,8 +100,8 @@ const Pantry = ({ session }) => {
             ingredients={ingredients}
           />
           <fieldset className="flex flex-wrap gap-2" onChange={handleIngredientCheck}>
-            <legend className="visually-hidden">Select from your ingredients</legend>
-            {ingredients.map((ingredient) => {
+            <legend className="visually-hidden">Select from my ingredients</legend>
+            {ingredients.sort().map((ingredient) => {
               return (
                 <Ingredient key={ingredient} ingredientName={ingredient} />
               );
