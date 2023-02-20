@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
-import Icon from '../assets/Face.png'
+// import Icon from '../assets/Face.png'
 import camera from '../assets/camera on.png'
 
 export default function Avatar({ url, size, onUpload }) {
