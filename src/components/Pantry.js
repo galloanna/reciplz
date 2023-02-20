@@ -44,6 +44,7 @@ const Pantry = ({ session }) => {
     } else {
       selectedIngredients = selectedIngredients.filter((e) => e !== value);
     }
+    console.log(selectedIngredients)
   };
 
   const updateIngredients = async (e) => {
@@ -88,7 +89,7 @@ const Pantry = ({ session }) => {
   };
 
   return (
-    <div aria-live="polite" className="container mx-auto">
+    <div aria-live="polite" className="container">
       {loading ? (
         "Saving ..."
       ) : (
@@ -98,13 +99,14 @@ const Pantry = ({ session }) => {
             loading={loading}
             ingredients={ingredients}
           />
-          <form onChange={handleIngredientCheck}>
+          <fieldset className="flex flex-wrap gap-2" onChange={handleIngredientCheck}>
+            <legend className="visually-hidden">Select from your ingredients</legend>
             {ingredients.map((ingredient) => {
               return (
                 <Ingredient key={ingredient} ingredientName={ingredient} />
               );
             })}
-          </form>
+          </fieldset>
         </div>
       )}
       <div>
