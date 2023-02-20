@@ -10,7 +10,7 @@ export default function Auth() {
 
     try {
       setLoading(true)
-      const { error } = await supabase.auth.signIn({ email })
+      const { error } = await supabase.auth.signIn({ email }, {redirectTo: window.location.origin})
       if (error) throw error
       alert('Check your email for the login link!')
     } catch (error) {
