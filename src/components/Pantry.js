@@ -6,8 +6,8 @@ import Ingredient from "./Ingredient";
 
 const Pantry = ({ session }) => {
   const [loading, setLoading] = useState(true);
-  const [recipesReady, setRecipesReady] = useState(false);
   const [ingredients, setIngredients] = useState(null);
+  const [recipesReady, setRecipesReady] = useState(false);
   const [recipeData, setRecipeData] = useState(null);
   const [recipesMessage, setRecipeMessage] = useState('');
   let selectedIngredients = [];
@@ -94,13 +94,13 @@ const Pantry = ({ session }) => {
 
   return (
     <div className="container flex justify-center">
-      <div aria-live="polite">
+      <div aria-live="polite" className="w-full">
         {loading ? (
           <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">
             Updating pantry...
           </p>
         ) : (
-          <div>
+          <div className="w-full">
             <AddIngredient
               updateIngredients={updateIngredients}
               loading={loading}

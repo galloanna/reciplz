@@ -11,14 +11,14 @@ const AddIngredient = ({ loading, ingredients, updateIngredients }) => {
   };
 
   return (
-    <form className="container form-widget flex mx-auto items-center justify-center w-full lg:w-1/2 mb-16">
+    <form className="container form-widget flex mx-auto items-center justify-center w-full mb-16">
       <label htmlFor="ingredient" className="visually-hidden">
         Add a new ingredient
       </label>
       <input
         type="text"
         name="text"
-        className="pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 w-full rounded-full mr-5"
+        className="pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 rounded-full mr-5 w-full lg:w-1/2"
         placeholder="Add ingredient to pantry"
         id="ingredient"
         autoComplete="off"
