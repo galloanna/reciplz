@@ -6,7 +6,9 @@ import Ingredient from "./Ingredient";
 
 const Pantry = ({ session }) => {
   const [loading, setLoading] = useState(true);
+  const [recipesReady, setRecipesReady] = useState(false);
   const [ingredients, setIngredients] = useState(null);
+  const [recipeData, setRecipeData] = useState(null);
   let selectedIngredients = [];
 
   useEffect(() => {
@@ -37,15 +39,11 @@ const Pantry = ({ session }) => {
   const handleIngredientCheck = (e) => {
     const { value, checked } = e.target;
 
-    console.log(`${value} is ${checked}`);
-
     if (checked) {
-    selectedIngredients = [...selectedIngredients, value];
+      selectedIngredients = [...selectedIngredients, value];
     } else {
-    selectedIngredients = selectedIngredients.filter((e) => e !== value);
+      selectedIngredients = selectedIngredients.filter((e) => e !== value);
     }
-
-    console.log("selected ingredients are", selectedIngredients);
   };
 
   const updateIngredients = async (e) => {
@@ -73,6 +71,22 @@ const Pantry = ({ session }) => {
     }
   };
 
+  const fetchRecipes = async () => {
+    fetch(
+      `https://api.edamam.com/api/recipes/v2?type=public&q=${selectedIngredients}&app_id=${process.env.REACT_APP_EDAMAM_APP_ID}&app_key=${process.env.REACT_APP_EDAMAM_APP_KEY}`
+    )
+      .then((res) => res.json())
+      .then(({ hits }) => {
+        setRecipeData(hits);
+        setRecipesReady(true);
+        console.log(hits);
+      })
+      .catch(() => {
+        console.error("Could not load recipes");
+        setRecipesReady(false);
+      });
+  };
+
   return (
     <div aria-live="polite" className="container mx-auto">
       {loading ? (
@@ -93,6 +107,22 @@ const Pantry = ({ session }) => {
           </form>
         </div>
       )}
+      <div>
+        <button
+          className="w-44 h-11 rounded-full text-gray-50 bg-indigo-600 hover:bg-indigo-700"
+          disabled={loading}
+          onClick={fetchRecipes}
+        >
+          Search Recipes
+        </button>
+        {recipesReady && (
+          <>
+            {recipeData.map((item) => {
+              return <span key={item.recipe.label}>{item.recipe.label}</span>;
+            })}
+          </>
+        )}
+      </div>
     </div>
   );
 };
