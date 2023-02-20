@@ -20,7 +20,7 @@ const Pantry = ({ session }) => {
       setLoading(true);
       const user = supabase.auth.user();
 
-      let { data, error, status } = await supabase
+      let { data } = await supabase
         .from("profiles")
         .select("ingredients")
         .eq("id", user.id)
