@@ -11,7 +11,7 @@ const AddIngredient = ({ loading, ingredients, updateIngredients }) => {
   };
 
   return (
-    <form className="container form-widget flex mx-auto items-center justify-center w-full mb-16">
+    <form className="container form-widget flex mx-auto items-center justify-center w-full mb-10 lg:mb-16">
       <label htmlFor="ingredient" className="visually-hidden">
         Add a new ingredient
       </label>

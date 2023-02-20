@@ -74,14 +74,14 @@ const Navbar = ({ session }) => {
                     Home
                   </a>
                 </li>
-                <li className="mb-6 md:mb-0">
+                {/* <li className="mb-6 md:mb-0">
                   <a
                     href="/account"
                     className="text-zinc-700 hover:text-purple-700 text-lg font-semibold"
                   >
                     Account
                   </a>
-                </li>
+                </li> */}
                 <li className="mb-4 md:mb-0">
                   <button
                     type="button"
