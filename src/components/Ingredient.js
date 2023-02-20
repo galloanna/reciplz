@@ -14,7 +14,7 @@ const Ingredient = ({ ingredientName }) => {
   }
 
   return (
-    <label className={`${isChecked ? "border-purple-700" : ""} rounded-full border-2 border-sky px-5 py-2 text-lg font-semibold text-zinc-700 cursor-pointer bg-white`} tabIndex="0" onKeyDown={handleKeyEvent}>
+    <label className={`${isChecked ? "border-purple-700" : ""} rounded-full border-2 border-sky px-5 py-2 text-lg text-zinc-700 cursor-pointer bg-white`} tabIndex="0" onKeyDown={handleKeyEvent}>
       <input
         type="checkbox"
         value={ingredientName}
