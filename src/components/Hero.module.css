@@ -1,0 +1,6 @@
+.heroText {
+    background: #581C87;
+    background: radial-gradient(ellipse farthest-corner at bottom left, #581C87 19%, #A21CAF 79%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
