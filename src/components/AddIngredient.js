@@ -19,7 +19,7 @@ const AddIngredient = ({ loading, ingredients, updateIngredients }) => {
         type="text"
         name="text"
         className="pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 w-full rounded-full mr-5"
-        placeholder="add ingredient"
+        placeholder="Add ingredient to pantry"
         id="ingredient"
         autoComplete="off"
         onChange={(e) => setNewIngredient(e.target.value)}
