@@ -2,48 +2,43 @@ import { useState } from 'react'
 import { supabase } from '../supabaseClient'
 
 export default function Auth() {
-  const [loading, setLoading] = useState(false)
+  const [userMessage, setUserMessage]= useState('Log in with your email address to get cooking.');
   const [email, setEmail] = useState('')
 
   const handleLogin = async (e) => {
     e.preventDefault()
 
     try {
-      setLoading(true)
+      setUserMessage('Sending magic link...')
       const { error } = await supabase.auth.signIn({ email }, {redirectTo: window.location.origin})
       if (error) throw error
-      alert('Check your email for the login link!')
+      setUserMessage('Success! Check your email for the magic link.')
     } catch (error) {
-      alert(error.error_description || error.message)
+      console.log(error.error_description || error.message)
+      setUserMessage('Something went wrong. Please refresh and try again.')
     } finally {
-      setLoading(false)
     }
   }
 
   return (
-    <div className="container mx-auto text-center w-72">
-      <div className="col-6 form-widget" aria-live="polite">
-        <h1 className="header text-3xl py-3 text-gray-600">Login in</h1>
-        <p className="text-xs text-gray-500 pb-3">Sign in via magic link with your email below</p>
-        {loading ? (
-          'Sending magic link...'
-        ) : (
-          <form onSubmit={handleLogin}>
+      <div className="flex flex-col justify-center items-center w-full lg:w-1/2 form-widget mx-auto" aria-live="polite">
+        <p className="text-xl text-center mb-12 text-zinc-700">{userMessage}</p>
+          <form onSubmit={handleLogin} className="flex flex-col w-full">
+            <label htmlFor="website" className="visually-hidden">Enter your email addrress</label>
             <input type="email" 
               name="email" 
-              className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
-              placeholder="your@email.com"
+              className="mx-auto w-80 pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 rounded-full mb-3" 
+              placeholder="you@email.com"
               id="website"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               />
-               <button className="my-3 w-36 text-xs h-8 rounded-full text-gray-50 bg-indigo-600 hover:bg-indigo-700" >
+               <button className="mx-auto w-56 rounded-full px-8 py-4 text-lg font-semibold text-white cursor-pointer bg-purple-700 hover:bg-purple-800" >
                Send magic link
               </button>
             
           </form>
-        )}
       </div>
-    </div>
+    
   )
 }

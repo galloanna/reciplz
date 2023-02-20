@@ -9,6 +9,7 @@ const Pantry = ({ session }) => {
   const [recipesReady, setRecipesReady] = useState(false);
   const [ingredients, setIngredients] = useState(null);
   const [recipeData, setRecipeData] = useState(null);
+  const [recipesMessage, setRecipeMessage] = useState('');
   let selectedIngredients = [];
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const Pantry = ({ session }) => {
     } else {
       selectedIngredients = selectedIngredients.filter((e) => e !== value);
     }
+    console.log(selectedIngredients);
   };
 
   const updateIngredients = async (e) => {
@@ -72,6 +74,7 @@ const Pantry = ({ session }) => {
   };
 
   const fetchRecipes = async () => {
+    setRecipeMessage('Fetching recipes...')
     fetch(
       `https://api.edamam.com/api/recipes/v2?type=public&q=${selectedIngredients}&app_id=${process.env.REACT_APP_EDAMAM_APP_ID}&app_key=${process.env.REACT_APP_EDAMAM_APP_KEY}`
     )
@@ -80,47 +83,61 @@ const Pantry = ({ session }) => {
         setRecipeData(hits);
         setRecipesReady(true);
         console.log(hits);
+        setRecipeMessage('')
       })
       .catch(() => {
+        setRecipeMessage('Error loading recipes. Please try again.')
         console.error("Could not load recipes");
         setRecipesReady(false);
       });
   };
 
   return (
-    <div aria-live="polite" className="container mx-auto">
-      {loading ? (
-        "Saving ..."
-      ) : (
-        <div>
-          <AddIngredient
-            updateIngredients={updateIngredients}
-            loading={loading}
-            ingredients={ingredients}
-          />
-          <form onChange={handleIngredientCheck}>
-            {ingredients.map((ingredient) => {
-              return (
-                <Ingredient key={ingredient} ingredientName={ingredient} />
-              );
-            })}
-          </form>
-        </div>
-      )}
-      <div>
+    <div className="container flex justify-center">
+      <div aria-live="polite">
+        {loading ? (
+          <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">
+            Updating pantry...
+          </p>
+        ) : (
+          <div>
+            <AddIngredient
+              updateIngredients={updateIngredients}
+              loading={loading}
+              ingredients={ingredients}
+            />
+            <fieldset
+              className="flex flex-wrap gap-2"
+              onChange={handleIngredientCheck}
+            >
+              <legend className="text-xl text-center mb-8 text-zinc-700 font-semibold">
+                Curently in your pantry
+              </legend>
+              {ingredients.sort().map((ingredient) => {
+                return (
+                  <Ingredient key={ingredient} ingredientName={ingredient} />
+                );
+              })}
+            </fieldset>
+          </div>
+        )}
         <button
-          className="w-44 h-11 rounded-full text-gray-50 bg-indigo-600 hover:bg-indigo-700"
+          className="mx-auto rounded-full px-8 py-4 text-lg font-semibold text-white cursor-pointer bg-purple-700 hover:bg-purple-800"
           disabled={loading}
           onClick={fetchRecipes}
         >
           Search Recipes
         </button>
-        {recipesReady && (
+        {recipesReady ? (
           <>
             {recipeData.map((item) => {
               return <span key={item.recipe.label}>{item.recipe.label}</span>;
             })}
           </>
+        ) : (
+          <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">
+            { recipesMessage }
+          </p>
         )}
       </div>
     </div>

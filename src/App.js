@@ -19,10 +19,11 @@ function App() {
   }, []);
 
   return (
-    <div className="container mx-auto">
-      {session && <Navbar /> }
+    <div className="container mx-auto px-6 lg:px-10">
+      <Navbar session={session} />
+      <Hero />
       <Routes>
-        <Route path="/" element={!session ? <><Hero /><Auth /></> : <Pantry />}></Route>
+        <Route path="/" element={!session ? <Auth /> : <Pantry />}></Route>
         <Route path="/account" element={<Account />}></Route>
       </Routes>
     </div>
