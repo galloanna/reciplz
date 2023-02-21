@@ -151,7 +151,7 @@ const Pantry = ({ session }) => {
             />
             <form role="search">
               <fieldset
-                className="flex flex-wrap gap-2"
+                className="flex flex-wrap gap-2 justify-center"
                 onChange={handleIngredientCheck}
               >
                 <legend className="text-xl text-center mb-8 text-zinc-700 font-semibold">
@@ -169,7 +169,7 @@ const Pantry = ({ session }) => {
             </form>
           </div>
         )}
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-2 mt-8 md:mt-0">
           <RecipeSearchButton loading={loading} fetchRecipes={fetchRecipes} />
           <IngredientDeleteButton deleteIngredients={deleteIngredients} />
         </div>
