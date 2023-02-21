@@ -6,7 +6,6 @@ const AddIngredient = ({ loading, ingredients, updateIngredients }) => {
   const addToIngredients = (e) => {
     e.preventDefault();
     ingredients.push(newIngredient);
-    console.log(ingredients);
     updateIngredients();
   };
 
