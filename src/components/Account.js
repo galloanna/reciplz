@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 
-const Account = ({ session }) => {
+const Account = ({ session, userConfirmed, setUserConfirmed }) => {
   const [userMessage, setUserMessage] = useState(
     "Please confirm your email address to continue."
   );
   const [email, setEmail] = useState(session.user.email);
   const [loading, setLoading] = useState(true);
-  const [userConfirmed, setUserConfirmed] = useState(false);
+
 
   useEffect(() => {
     getProfile();
