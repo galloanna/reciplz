@@ -137,7 +137,7 @@ const Pantry = ({ session }) => {
 
   return (
     <div className="container">
-      <div aria-live="polite" className="flex flex-col w-full items-center">
+      <div aria-live="polite" className="flex flex-col min-h-screen items-center">
         {loading ? (
           <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">
             Updating pantry...
