@@ -12,7 +12,6 @@ const Pantry = ({ session }) => {
 
   const [loading, setLoading] = useState(true);
   const [ingredients, setIngredients] = useState(null);
-  const [showButtons, setShowButtons] = useState(false);
   const [recipesReady, setRecipesReady] = useState(false);
   const [recipeData, setRecipeData] = useState(null);
   const [recipesMessage, setRecipeMessage] = useState("");
