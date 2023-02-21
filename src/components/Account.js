@@ -1,42 +1,14 @@
 // get the fields values 
 import { useState, useEffect } from "react"
 import { supabase } from "../supabaseClient"
-import Avatar from './Avatar';
 
-const Account = ( { session } ) => {
-
+const Account = ( { session,  } ) => {
     const [loading, setLoading] = useState(true)
-    const [username, setUsername] = useState(null)
-    const [website, setWebsite] = useState(null)
-    const [avatar_url, setAvatarUrl] = useState(null)
+    const [email, setEmail] = useState(session.user.email)
 
     useEffect(() => {
         getProfile()
     }, [session])
-
-    const getProfile = async () => {
-        try {
-            setLoading(true)
-            const user = supabase.auth.user()
-
-            let { data } = await supabase
-            .from('profiles')
-            .select(`username, website, avatar_url`)
-            .eq('id', user.id)
-            .single()
-
-            if(data){
-                setUsername(data.username)
-                setWebsite(data.website)
-                setAvatarUrl(data.avatar_url)
-            }
-
-        } catch (error) {
-            alert(error.message)
-        }finally{
-            setLoading(false)
-        }
-    }
 
     const updateProfile = async (e) => {
         e.preventDefault()
@@ -47,9 +19,8 @@ const Account = ( { session } ) => {
 
             const updates = {
                 id : user.id,
-                username,
-                website,
-                avatar_url,
+                email,
+                ingredients: [],
                 updated_at: new Date()
             }
 
@@ -66,44 +37,49 @@ const Account = ( { session } ) => {
         }
     }
 
+    const getProfile = async () => {
+        try {
+            setLoading(true)
+            const user = supabase.auth.user()
+
+            let { data } = await supabase
+            .from('profiles')
+            .select(`email`)
+            .eq('id', user.id)
+            .single()
+
+            if(data){
+                setEmail(data.email)
+            }
+
+        } catch (error) {
+            alert(error.message)
+        }finally{
+            setLoading(false)
+        }
+    }
+
     return (
         <div aria-live="polite" className='container mx-auto'>
       {loading ? (
-        'Saving ...'
+          <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">Loading...</p>
       ) : (
         <form onSubmit={updateProfile} className="form-widget">
-            <Avatar
-            url={avatar_url}
-            size={150}
-            onUpload={(url) => {
-                setAvatarUrl(url)
-                updateProfile({ username, website, avatar_url: url })
-            }}
-            />
-          {/* <div>Email: {session.user.email}</div> */}
-          <div className="container mx-auto w-72 py-4">
-                <input type="text" 
-                name="text" 
-                id="username"
-                className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
-                placeholder="Your Name" 
-                value={username || ''}
-                onChange={(e) => setUsername(e.target.value)}
-                />
-          </div>
-          <div className="container mx-auto w-72 py-4">
+          <div className="flex flex-col justify-center items-center w-full lg:w-1/2 form-widget mx-auto">
+          <label htmlFor="email" className="visually-hidden">Enter your email addrress</label>
               <input type="text" 
               name="text" 
-              className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
-              placeholder="your@website.com"
-              id="website"
-              value={website || ''}
-              onChange={(e) => setWebsite(e.target.value)}
+              className="mx-auto w-80 pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 rounded-full mb-3" 
+              placeholder="you@email.com"
+              id="email"
+              value={email || ''}
+              readonly
+            //   onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           <div className='text-center'>
-              <button className="w-44 h-11 rounded-full text-gray-50 bg-indigo-600 hover:bg-indigo-700" disabled={loading}>
-                Update Profile
+              <button className="mx-auto w-56 rounded-full px-8 py-4 text-lg font-semibold text-white cursor-pointer bg-purple-700 hover:bg-purple-800" disabled={loading}>
+                Confirm Email
               </button>
           </div>
         </form>
@@ -111,10 +87,6 @@ const Account = ( { session } ) => {
       
     </div>
     )
-
-
 }
 
 export default Account;
-
-// update these values
