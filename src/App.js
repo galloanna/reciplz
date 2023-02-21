@@ -21,7 +21,7 @@ function App() {
   }, []);
 
   return (
-    <div className="relative h-screen">
+    <div className="relative min-h-screen">
       <div className="container mx-auto px-6 lg:px-10 pb-[88px]">
         <Navbar session={session} />
         <Hero />
