@@ -9,6 +9,7 @@ const Account = ({ session, userConfirmed, setUserConfirmed }) => {
   );
   const [email, setEmail] = useState(session.user.email);
   const [loading, setLoading] = useState(true);
+  const [initialIngredients, setInitialIngredients] = useState([]);
 
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const Account = ({ session, userConfirmed, setUserConfirmed }) => {
       const updates = {
         id: user.id,
         email,
-        ingredients: [],
+        ingredients: initialIngredients,
         updated_at: new Date(),
       };
 
@@ -58,6 +59,7 @@ const Account = ({ session, userConfirmed, setUserConfirmed }) => {
 
       if (data) {
         setEmail(data.email);
+        setInitialIngredients(data.ingredients);
       }
     } catch (error) {
       alert(error.message);
