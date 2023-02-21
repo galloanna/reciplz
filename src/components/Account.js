@@ -1,92 +1,115 @@
-// get the fields values 
-import { useState, useEffect } from "react"
-import { supabase } from "../supabaseClient"
+// get the fields values
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 
-const Account = ( { session,  } ) => {
-    const [loading, setLoading] = useState(true)
-    const [email, setEmail] = useState(session.user.email)
+const Account = ({ session }) => {
+  const [userMessage, setUserMessage] = useState(
+    "Please confirm your email address to continue."
+  );
+  const [email, setEmail] = useState(session.user.email);
+  const [loading, setLoading] = useState(true);
+  const [userConfirmed, setUserConfirmed] = useState(false);
 
-    useEffect(() => {
-        getProfile()
-    }, [session])
+  useEffect(() => {
+    getProfile();
+  }, [session]);
 
-    const updateProfile = async (e) => {
-        e.preventDefault()
+  const updateProfile = async (e) => {
+    e.preventDefault();
 
-        try {
-            setLoading(true)
-            const user = supabase.auth.user();
+    try {
+      setLoading(true);
+      const user = supabase.auth.user();
 
-            const updates = {
-                id : user.id,
-                email,
-                ingredients: [],
-                updated_at: new Date()
-            }
+      const updates = {
+        id: user.id,
+        email,
+        ingredients: [],
+        updated_at: new Date(),
+      };
 
-            let { error } = await supabase.from("profiles")
-            .upsert(updates, { returning : 'minimal'})
+      let { error } = await supabase
+        .from("profiles")
+        .upsert(updates, { returning: "minimal" });
 
-            if(error){
-                throw error;
-            }
-        } catch (error) {
-            alert(error.message)
-        } finally{
-            setLoading(false)
-        }
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
+      setUserConfirmed(true);
+      setUserMessage(`Confirmed! Let's eat!`);
     }
+  };
 
-    const getProfile = async () => {
-        try {
-            setLoading(true)
-            const user = supabase.auth.user()
+  const getProfile = async () => {
+    try {
+      setLoading(true);
+      const user = supabase.auth.user();
 
-            let { data } = await supabase
-            .from('profiles')
-            .select(`email`)
-            .eq('id', user.id)
-            .single()
+      let { data } = await supabase
+        .from("profiles")
+        .select(`email`)
+        .eq("id", user.id)
+        .single();
 
-            if(data){
-                setEmail(data.email)
-            }
-
-        } catch (error) {
-            alert(error.message)
-        }finally{
-            setLoading(false)
-        }
+      if (data) {
+        setEmail(data.email);
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    return (
-        <div aria-live="polite" className='container mx-auto'>
-      {loading ? (
-          <p className="text-xl text-center mb-8 text-zinc-700 font-semibold">Loading...</p>
-      ) : (
-        <form onSubmit={updateProfile} className="form-widget">
-          <div className="flex flex-col justify-center items-center w-full lg:w-1/2 form-widget mx-auto">
-          <label htmlFor="email" className="visually-hidden">Enter your email addrress</label>
-              <input type="text" 
-              name="text" 
-              className="mx-auto w-80 pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 rounded-full mb-3" 
-              placeholder="you@email.com"
-              id="email"
-              value={email || ''}
-              readonly
+  return (
+    <div
+      className="flex flex-col justify-center items-center w-full lg:w-1/2 form-widget mx-auto"
+      aria-live="polite"
+    >
+      <p className="text-xl text-center mb-12 text-zinc-700">{userMessage}</p>
+      <form
+        onSubmit={updateProfile}
+        className="form-widget flex flex-col w-full"
+      >
+        <div className="flex flex-col justify-center items-center w-full lg:w-1/2 form-widget mx-auto">
+          <label htmlFor="email" className="visually-hidden">
+            Enter your email addrress
+          </label>
+          <input
+            type="text"
+            name="text"
+            className="mx-auto w-80 pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 rounded-full mb-3"
+            placeholder="you@email.com"
+            id="email"
+            value={email || ""}
+            readOnly
             //   onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-          <div className='text-center'>
-              <button className="mx-auto w-56 rounded-full px-8 py-4 text-lg font-semibold text-white cursor-pointer bg-purple-700 hover:bg-purple-800" disabled={loading}>
-                Confirm Email
+          />
+        </div>
+        <div className="text-center">
+          {!userConfirmed ? (
+            <button
+              className="mx-auto w-56 rounded-full px-8 py-4 text-lg font-semibold text-white cursor-pointer bg-purple-700 hover:bg-purple-800"
+              disabled={loading}
+            >
+              Confirm Email
+            </button>
+          ) : (
+            <Link to={"../pantry"}>
+              <button className="mx-auto w-56 rounded-full px-8 py-4 text-lg font-semibold text-white cursor-pointer bg-purple-700 hover:bg-purple-800">
+                Go to Pantry
               </button>
-          </div>
-        </form>
-      )}
-      
+            </Link>
+          )}
+        </div>
+      </form>
     </div>
-    )
-}
+  );
+};
 
 export default Account;

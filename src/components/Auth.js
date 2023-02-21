@@ -24,12 +24,12 @@ export default function Auth() {
       <div className="flex flex-col justify-center items-center w-full lg:w-1/2 form-widget mx-auto" aria-live="polite">
         <p className="text-xl text-center mb-12 text-zinc-700">{userMessage}</p>
           <form onSubmit={handleLogin} className="flex flex-col w-full">
-            <label htmlFor="website" className="visually-hidden">Enter your email addrress</label>
+            <label htmlFor="email" className="visually-hidden">Enter your email addrress</label>
             <input type="email" 
               name="email" 
               className="mx-auto w-80 pl-5 py-3 border-zinc-300 border-2 text-lg placeholder-zinc-500 rounded-full mb-3" 
               placeholder="you@email.com"
-              id="website"
+              id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               />
