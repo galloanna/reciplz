@@ -1,6 +1,6 @@
 const Recipe = ({ item }) => {
   return (
-    <li>
+    <li className="w-full md:w-auto">
       <a
         href={item.recipe.url}
         target="_blank"
