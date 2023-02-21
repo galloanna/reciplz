@@ -69,10 +69,10 @@ const Navbar = ({ session }) => {
               <ul className="flex items-center flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
                 <li className="mb-4 md:mb-0">
                   <a
-                    href="/"
+                    href="/pantry"
                     className="text-zinc-700 hover:text-purple-700 text-lg font-semibold"
                   >
-                    Home
+                    Pantry
                   </a>
                 </li>
                 {/* <li className="mb-6 md:mb-0">
