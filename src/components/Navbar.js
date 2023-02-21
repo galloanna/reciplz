@@ -18,7 +18,8 @@ const Navbar = ({ session }) => {
   };
 
   return (
-    <nav className="bg-white border-gray-200 py-2.5 rounded">
+    <header>
+      <nav className="bg-white border-gray-200 py-2.5 rounded">
       <div className="relative container flex flex-wrap items-center justify-between mx-auto">
         <a href="/" className="flex items-center">
           <svg
@@ -99,7 +100,8 @@ const Navbar = ({ session }) => {
           </>
         )}
       </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 

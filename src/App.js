@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
 import { supabase } from "./supabaseClient";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Auth from "./components/Auth";
 import Pantry from "./components/Pantry";
 import Account from "./components/Account";
-import { Routes, Route } from 'react-router-dom';
+import Footer from "./components/Footer";
+import "./App.css";
+
 
 function App() {
   const [session, setSession] = useState(null);
@@ -19,13 +21,16 @@ function App() {
   }, []);
 
   return (
-    <div className="container mx-auto px-6 lg:px-10">
-      <Navbar session={session} />
-      <Hero />
-      <Routes>
-        <Route path="/" element={!session ? <Auth /> : <Pantry />}></Route>
-        <Route path="/account" element={<Account />}></Route>
-      </Routes>
+    <div className="relative h-screen">
+      <div className="container mx-auto px-6 lg:px-10 pb-[88px]">
+        <Navbar session={session} />
+        <Hero />
+        <Routes>
+          <Route path="/" element={!session ? <Auth /> : <Pantry />}></Route>
+          <Route path="/account" element={<Account />}></Route>
+        </Routes>
+      </div>
+      <Footer className="h-[88px]" />
     </div>
   );
 }
