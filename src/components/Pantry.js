@@ -177,7 +177,7 @@ const Pantry = ({ session }) => {
           {recipesMessage}
         </p>
         {recipesReady && (
-          <ul className="flex gap-2 flex-wrap items-center justify-center">
+          <ul className="flex gap-2 flex-wrap items-center justify-center mb-16">
             {recipeData.map((item) => {
               return <Recipe item={item} />;
             })}
